@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  bitcoin-core:
+    image: ruimarinho/bitcoin-core
+    env_file:
+      - .env
+    command: |
+      -printtoconsole
+      -regtest=1
+      -rpcallowip=0.0.0.0/0
+      -rpcbind=0.0.0.0
+      -fallbackfee=0.0002
+      -rpcauth=${RPC_AUTH}
+    ports:
+      - 18443:18443
+      - 18444:18444
+
+  server:
+    build: server
+    depends_on:
+      - bitcoin-core
+    environment:
+      PORT: 8000
+      BITCOIN_CORE_HOST: bitcoin-core:18443
+      RPC_USER:
+      RPC_PASSWORD:
+    ports:
+      - 8000:8000
+
+  client:
+    build: client
+    depends_on:
+      - server
+    env_file:
+      - .env
+    environment:
+      PORT: 3000
+    ports:
+      - 3000:3000

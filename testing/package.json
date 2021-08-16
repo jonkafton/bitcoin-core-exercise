@@ -1,0 +1,28 @@
+{
+  "name": "integration-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "DOTENV_CONFIG_PATH=../.env jest; yarn test-report",
+    "test-ci": "DOTENV_CONFIG_PATH=../.env jest",
+    "test-report": "open-cli jest_html_reporters.html",
+    "dev": "DOTENV_CONFIG_PATH=../.env jest --watchAll"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "jest": "^27.0.6",
+    "jest-html-reporters": "^2.1.6",
+    "open-cli": "^7.0.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "reporters": [
+      "default",
+      "jest-html-reporters"
+    ]
+  }
+}
